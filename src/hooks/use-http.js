@@ -3,17 +3,14 @@ import { useState, useCallback } from 'react'
 
 /**
  * CUSTOM HOOK that make a request to Firebase realtime database.
- * @function sendRequest - that fetch data from Firebase
- * @returns Object {isLoading, error, sendRequest}
  */
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const sendRequest = useCallback (async (requestConfig, applyData) => {
+  const sendRequest = useCallback (async (requestConfig, formatDataByComponent) => {
     setIsLoading(true)
     setError(null)
-
     try {
       const response = await fetch(
          requestConfig.url, {
@@ -28,7 +25,7 @@ const useHttp = () => {
       }
 
       const data = await response.json()
-      applyData(data) // function provided by the component that calls this hook
+      formatDataByComponent(data) // function provided by the component that calls this hook
       
     } catch (err) {
       setError(err.message || 'Something went wrong!')

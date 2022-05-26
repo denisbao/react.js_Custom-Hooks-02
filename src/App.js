@@ -6,9 +6,10 @@ import NewTask from './components/NewTask/NewTask';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-  const {isLoading, error, sendRequest: fetchTasks} = useHttp()
+  const {isLoading, error, sendRequest} = useHttp()
 
   useEffect(() => {
+    // arrange tasks informations into an array in a simpler way
     const transformTasks = (tasksOjs) => {
       const loadedTasks = [];
       for (const taskKey in tasksOjs) {
@@ -16,12 +17,16 @@ function App() {
       }
       setTasks(loadedTasks);
     }
-
-    fetchTasks({
-      url: 'https://custom-hooks-02-b2aeb-default-rtdb.firebaseio.com/tasks.json'}, 
+    
+    // function recieved from the useHttp rook, configuring the http request
+    sendRequest(
+      {
+        url: 'https://custom-hooks-02-b2aeb-default-rtdb.firebaseio.com/tasks.json'
+      }, 
       transformTasks
     )
-  }, [fetchTasks]);
+
+  }, [sendRequest]);
 
   const taskAddHandler = (task) => {
     setTasks((prevTasks) => prevTasks.concat(task));
@@ -34,7 +39,7 @@ function App() {
         items={tasks}
         loading={isLoading}
         error={error}
-        onFetch={fetchTasks}
+        onFetch={sendRequest}
       />
     </React.Fragment>
   );
