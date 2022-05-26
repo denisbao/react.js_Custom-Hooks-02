@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+
 
 /**
  * @param {object} requestConfig object {url, method, headers, body} for the http request
  * @param {() => {}} applyData function that will format the data returned from the request
  * @returns object containing isLoading, error and sendRequest
  */
-const useHttp = (requestConfig, applyData) => {
-
+const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
-  const sendRequest = async () => {
+  const sendRequest = useCallback (async (requestConfig, applyData) => {
     setIsLoading(true)
     setError(null)
 
@@ -35,7 +35,7 @@ const useHttp = (requestConfig, applyData) => {
       setError(err.message || 'Something went wrong!')
     }
     setIsLoading(false)
-  }
+  }, [])
 
   return {
      isLoading,
