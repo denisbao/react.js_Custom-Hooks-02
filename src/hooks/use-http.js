@@ -2,9 +2,9 @@ import { useState, useCallback } from 'react'
 
 
 /**
- * @param {object} requestConfig object {url, method, headers, body} for the http request
- * @param {() => {}} applyData function that will format the data returned from the request
- * @returns object containing isLoading, error and sendRequest
+ * CUSTOM HOOK that make a request to Firebase realtime database.
+ * @function sendRequest - that fetch data from Firebase
+ * @returns Object {isLoading, error, sendRequest}
  */
 const useHttp = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -28,7 +28,6 @@ const useHttp = () => {
       }
 
       const data = await response.json()
-      console.log(data)
       applyData(data) // function provided by the component that calls this hook
       
     } catch (err) {

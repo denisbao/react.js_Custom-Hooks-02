@@ -6,13 +6,9 @@ import NewTask from './components/NewTask/NewTask';
 
 function App() {
   const [tasks, setTasks] = useState([]);
-
-  
-
   const {isLoading, error, sendRequest: fetchTasks} = useHttp()
 
   useEffect(() => {
-
     const transformTasks = (tasksOjs) => {
       const loadedTasks = [];
       for (const taskKey in tasksOjs) {
